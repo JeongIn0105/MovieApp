@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		9944720A2F4FE60A005FD0BE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 994472092F4FE60A005FD0BE /* SnapKit */; };
 		9944720D2F4FE618005FD0BE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9944720C2F4FE618005FD0BE /* Alamofire */; };
+		994BD5FF2F513A5B00E3463D /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994BD5FE2F513A5B00E3463D /* User+CoreDataProperties.swift */; };
+		994BD6002F513A5B00E3463D /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994BD5FD2F513A5B00E3463D /* User+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		994471ED2F4FE51D005FD0BE /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		994BD5FD2F513A5B00E3463D /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		994BD5FE2F513A5B00E3463D /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -52,6 +56,8 @@
 		994471E42F4FE51D005FD0BE = {
 			isa = PBXGroup;
 			children = (
+				994BD5FD2F513A5B00E3463D /* User+CoreDataClass.swift */,
+				994BD5FE2F513A5B00E3463D /* User+CoreDataProperties.swift */,
 				994471EF2F4FE51D005FD0BE /* MovieApp */,
 				994471EE2F4FE51D005FD0BE /* Products */,
 			);
@@ -145,6 +151,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				994BD5FF2F513A5B00E3463D /* User+CoreDataProperties.swift in Sources */,
+				994BD6002F513A5B00E3463D /* User+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
