@@ -5,6 +5,7 @@
 //  Created by 이정인 on 2/27/26.
 //
 
+// MARK: 회원가입 구현
 import UIKit
 import SnapKit
 
@@ -33,28 +34,15 @@ class SignUpViewController: UIViewController {
         textField.smartQuotesType = .no // 스마트 구두점 무시
         textField.textContentType = .username
         
+        textField.text = UserDefaultsManager.shared.loadId()
+        
         // textField.addTarget(self, action: #selector(idTextFieldChange(_:)), for: .editingChanged)
         
         return textField
         
     }()
     
-    /*
-    // MARK: 중복확인 버튼
-    private let checkIdButton: UIButton = {
-        
-        let button = UIButton()
-        button.setTitle("중복 확인", for: .normal)
-        button.isEnabled = false
-        button.setTitleColor(.systemGray5, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
-        button.layer.cornerRadius = 7
-        button.backgroundColor = .systemGray6
-
-        return button
-        
-    }()
-    */
+    
     
     // MARK: 비밀번호 입력란
     private let passwordTextField: UITextField = {
@@ -67,6 +55,8 @@ class SignUpViewController: UIViewController {
         textField.autocorrectionType = .no // 자동 수정 무시
         textField.smartQuotesType = .no // 스마트 구두점 무시
         textField.textContentType = .password
+        
+        // textField.text = UserDefaultsManager.shared.loadPassword()
         
         return textField
         
@@ -83,6 +73,8 @@ class SignUpViewController: UIViewController {
         textField.smartQuotesType = .no // 스마트 구두점 무시
         textField.textContentType = .name
         
+        // textField.text = UserDefaultsManager.shared.loadName()
+        
         return textField
         
     }()
@@ -96,7 +88,9 @@ class SignUpViewController: UIViewController {
         textField.autocapitalizationType = .none // 자동 대문자 변환 무시
         textField.autocorrectionType = .no // 자동 수정 무시
         textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .name
+        textField.textContentType = .none
+        
+        // textField.text = UserDefaultsManager.shared.loadBirthday()
         
         return textField
         
@@ -111,7 +105,9 @@ class SignUpViewController: UIViewController {
         textField.autocapitalizationType = .none // 자동 대문자 변환 무시
         textField.autocorrectionType = .no // 자동 수정 무시
         textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .name
+        textField.textContentType = .telephoneNumber
+        
+        // textField.text = UserDefaultsManager.shared.loadPhoneNumber()
         
         return textField
         
@@ -126,11 +122,13 @@ class SignUpViewController: UIViewController {
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = UIColor(red: 84/255, green: 146/255, blue: 232/255, alpha: 1.0)
         
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        
         button.layer.cornerRadius = 16
         
         return button
     }()
-
+    
     // MARK: 가입하기 버튼
     private let registerButton: UIButton = {
         
@@ -139,17 +137,32 @@ class SignUpViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
-        
         button.layer.cornerRadius = 16
+        
+        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         configureUI()
+    }
+    
+    // MARK: 회원가입 화면 다시 들어올 때마다 항상 빈칸으로 구현
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        clearFields()
+    }
+    
+    private func clearFields() {
+        idTextField.text = ""
+        passwordTextField.text = ""
+        nameTextField.text = ""
+        birthdayTextField.text = ""
+        phoneNumberTextField.text = ""
     }
     
     private func configureUI() {
@@ -167,6 +180,7 @@ class SignUpViewController: UIViewController {
             registerButton
         ].forEach { view.addSubview($0) }
         
+        // MARK: 회원가입 화면의 제약 조건
         signUpLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(200)
             $0.centerX.equalToSuperview()
@@ -177,16 +191,6 @@ class SignUpViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(40)
         }
-        
-        // 중복버튼 제약 조건
-        /*
-        checkIdButton.snp.makeConstraints {
-            $0.top.equalTo(idTextField)
-            $0.trailing.equalToSuperview().offset(-30)
-            $0.width.equalTo(100)
-            $0.height.equalTo(40)
-        }
-        */
         
         passwordTextField.snp.makeConstraints {
             $0.top.equalTo(idTextField.snp.bottom).offset(20)
@@ -221,7 +225,7 @@ class SignUpViewController: UIViewController {
             $0.leading.equalToSuperview().offset(20)
             $0.height.equalTo(58)
         }
-
+        
         registerButton.snp.makeConstraints {
             $0.top.equalTo(cancelButton)
             $0.leading.equalTo(cancelButton.snp.trailing).offset(16)
@@ -232,43 +236,47 @@ class SignUpViewController: UIViewController {
         
     }
     
-    /*
-    // MARK: 아이디를 입력하면 중복 버튼 활성화
+    // MARK: 취소하기 버튼을 클릭했을 때
     @objc
-    private func idTextFieldChange(_: UITextField) {
+    private func cancelButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: 가입하기 버튼을 클릭했을 때
+    @objc
+    private func registerButtonTapped() {
+        let id = UserDefaultsManager.shared.trimmed(idTextField.text)
+        let password = UserDefaultsManager.shared.trimmed(passwordTextField.text)
+        let name = UserDefaultsManager.shared.trimmed(nameTextField.text)
+        let birthday = UserDefaultsManager.shared.trimmed(birthdayTextField.text)
+        let phoneNumber = UserDefaultsManager.shared.trimmed(phoneNumberTextField.text)
         
-        let input = idTextField.text ?? ""
-        let inputtext = input.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        if input != inputtext { // 좌우에 공백이 들어오면 비활성화
-            checkButtonDisable()
+        guard !id.isEmpty, !password.isEmpty else {
+            showAlert(title: "입력 오류", message: "아이디와 비밀번호는 필수입니다.")
             return
         }
-
-        if input.isEmpty { // 비어있으면 버튼 비활성화
-            checkButtonDisable()
-        } else { // 셀에 내용이 있으면 버튼 활성화
-            checkButtonEnable()
-        }
+        
+        // MARK: 회원가입 완료 → UserDefaults 저장.
+        UserDefaultsManager.shared.saveUser(
+            id: id,
+            password: password,
+            name: name.isEmpty ? nil : name,
+            birthday: birthday.isEmpty ? nil : birthday,
+            phoneNumber: phoneNumber.isEmpty ? nil : phoneNumber
+        )
+        
+        // MARK: 완료되면 다시 로그인 화면으로 이동(push가 아니라 pop)
+        let register = UIAlertController(title: "회원가입 완료", message: "로그인 화면으로 이동합니다.", preferredStyle: .alert)
+        register.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        }))
+        present(register, animated: true)
     }
     
-    // 중복 확인 버튼 활성화
-    private func checkButtonEnable() {
-        checkIdButton.isEnabled = true
-        checkIdButton.setTitleColor(.systemBackground, for: .normal)
-        checkIdButton.backgroundColor = .systemRed
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
     }
-
-    // 중복 확인 버튼 비활성화
-    private func checkButtonDisable() {
-        checkIdButton.isEnabled = false
-        checkIdButton.setTitleColor(.systemGray3, for: .normal)
-        checkIdButton.backgroundColor = .systemGray6
-    }
-    */
-    
-}
-
-extension SignUpViewController {
     
 }

@@ -5,7 +5,7 @@
 //  Created by 이정인 on 2/27/26.
 //
 
-
+// MARK: 로그인 구현
 import UIKit
 import SnapKit
 
@@ -28,6 +28,7 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.placeholder = "아이디"
+        textField.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
         textField.autocapitalizationType = .none // 자동 대문자 변환 무시
         textField.autocorrectionType = .no // 자동 수정 무시
         textField.smartQuotesType = .no // 스마트 구두점 무시
@@ -44,6 +45,7 @@ class LoginViewController: UIViewController {
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         textField.placeholder = "비밀번호"
+        textField.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
         textField.autocapitalizationType = .none // 자동 대문자 변환 무시
         textField.autocorrectionType = .no // 자동 수정 무시
         textField.smartQuotesType = .no // 스마트 구두점 무시
@@ -61,6 +63,8 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
         button.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
         button.layer.cornerRadius = 16
+        
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -89,17 +93,6 @@ class LoginViewController: UIViewController {
         
     }()
     
-    // 회원가입 글자 |
-    private let deviderLabel: UILabel = {
-        
-        let label = UILabel()
-        label.text = "|"
-        label.font = .systemFont(ofSize: 11, weight: .bold)
-        label.textColor = .secondaryLabel
-        
-        return label
-    }()
-    
     private let signUpButton: UIButton = {
         
         let button = UIButton()
@@ -108,7 +101,7 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
         button.backgroundColor = .clear
         
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchDown)
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchDown)
         
         return button
     }()
@@ -128,6 +121,7 @@ class LoginViewController: UIViewController {
             signUpButton
         ].forEach { view.addSubview($0) }
         
+        // MARK: 로그인 화면의 제약 조건
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(250)
             $0.centerX.equalToSuperview()
@@ -176,12 +170,55 @@ class LoginViewController: UIViewController {
         
         print("viewWillAppear")
         
+        // IdTextField.text = UserDefaultsManager.shared.loadId()
+        // PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
+        
+        IdTextField.text = ""
+        PasswordTextField.text = ""
     }
     
-    
+    // MARK: 로그인 버튼을 클릭했을 때
     @objc
-    private func buttonTapped() {
+    private func loginButtonTapped() {
+        let id = UserDefaultsManager.shared.trimmed(IdTextField.text)
+        let password = UserDefaultsManager.shared.trimmed(PasswordTextField.text)
+        
+        guard !id.isEmpty, !password.isEmpty else {
+            showAlert(title: "입력 오류", message: "아이디와 비밀번호를 입력해주세요.")
+            return
+        }
+        
+        // MARK: 저장된 회원정보와 비교
+        guard UserDefaultsManager.shared.validateLogin(inputId: id, inputPassword: password) else {
+            showAlert(title: "로그인 실패", message: "아이디 또는 비밀번호가 올바르지 않습니다.\n(먼저 회원가입을 진행해주세요.)")
+            return
+        }
+        
+        // MARK: 로그인 성공 시에도 다시 저장(요구사항: 이후 자동 입력)
+        UserDefaultsManager.shared.saveUser(
+            id: id,
+            password: password,
+            name: UserDefaultsManager.shared.loadName(),
+            birthday: UserDefaultsManager.shared.loadBirthday(),
+            phoneNumber: UserDefaultsManager.shared.loadPhoneNumber()
+        )
+        
+        // MARK: 로그인 완료 → TabBar 화면 이동
+        let tabBar = MainTabBarViewController()
+        navigationController?.setViewControllers([tabBar], animated: true)
+        
+    }
+    
+    // MARK: 회원가입 버튼을 클릭했을 때
+    @objc
+    private func signUpButtonTapped() {
         self.navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
-
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
+    }
+    
 }
