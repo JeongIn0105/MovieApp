@@ -5,106 +5,89 @@
 //  Created by 이정인 on 2/27/26.
 //
 
-// MARK: 로그인 구현
+// MARK: - 로그인 구현
 import UIKit
 import SnapKit
+import Then
 
 class LoginViewController: UIViewController {
     
-    private let titleLabel: UILabel = {
+    // MARK: 제목 라벨
+    private let titleLabel = UILabel().then {
         
-        let label = UILabel()
-        label.text = "우이 무비"
-        label.textColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
-        label.font = .boldSystemFont(ofSize: 40)
+        $0.text = "우이 무비"
+        $0.textColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
+        $0.font = .boldSystemFont(ofSize: 40)
         
-        return label
-        
-    }()
+    }
     
     // MARK: 아이디 입력란
-    private let IdTextField: UITextField = {
+    private let IdTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "아이디"
-        textField.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .username
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "아이디"
+        $0.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .username
         
-        return textField
-        
-    }()
+    }
     
     // MARK: 비밀번호 입력란
-    private let PasswordTextField: UITextField = {
+    private let PasswordTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.placeholder = "비밀번호"
-        textField.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .password
+        $0.borderStyle = .roundedRect
+        $0.isSecureTextEntry = true
+        $0.placeholder = "비밀번호"
+        $0.textColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .password
         
-        return textField
-        
-    }()
+    }
     
-    private lazy var loginButton: UIButton = {
+    private lazy var loginButton = UIButton().then {
         
-        let button = UIButton()
-        button.setTitle("로그인", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
-        button.layer.cornerRadius = 16
+        $0.setTitle("로그인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        $0.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
+        $0.layer.cornerRadius = 16
         
-        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
-        return button
-    }()
+    }
     
-    private let findIdButton: UIButton = {
+    private let findIdButton = UIButton().then {
         
-        let button = UIButton(type: .system)
-        button.setTitle("아이디 찾기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .clear
+        $0.setTitle("아이디 찾기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        $0.backgroundColor = .clear
         
-        return button
-        
-    }()
+    }
     
-    private let findPasswordButton: UIButton = {
+    private let findPasswordButton = UIButton().then {
         
-        let button = UIButton(type: .system)
-        button.setTitle("비밀번호 찾기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .clear
+        $0.setTitle("비밀번호 찾기", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        $0.backgroundColor = .clear
         
-        return button
-        
-    }()
+    }
     
-    private let signUpButton: UIButton = {
+    private let signUpButton = UIButton().then {
         
-        let button = UIButton()
-        button.setTitle("회원가입", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        button.backgroundColor = .clear
+        $0.setTitle("회원가입", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        $0.backgroundColor = .clear
         
-        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchDown)
+        $0.addTarget(self, action: #selector(signUpButtonTapped), for: .touchDown)
         
-        return button
-    }()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

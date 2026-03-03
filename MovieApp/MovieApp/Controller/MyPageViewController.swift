@@ -12,7 +12,7 @@
  - 예매한 영화 내역을 볼 수 있도록 해주세요
  */
 
-// MARK: 마이 페이지 구현
+// MARK: - 마이 페이지 구현
 import UIKit
 
 final class MyPageViewController: UIViewController {
