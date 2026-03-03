@@ -5,144 +5,120 @@
 //  Created by 이정인 on 2/27/26.
 //
 
-// MARK: 회원가입 구현
+// MARK: - 회원가입 구현
 import UIKit
 import SnapKit
+import Then
 
 class SignUpViewController: UIViewController {
     
     // MARK: 회원가입 라벨
-    private let signUpLabel: UILabel = {
+    private let signUpLabel = UILabel().then {
         
-        let label = UILabel()
-        label.text = "회원가입"
-        label.textColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
-        label.font = .boldSystemFont(ofSize: 40)
+        $0.text = "회원가입"
+        $0.textColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
+        $0.font = .boldSystemFont(ofSize: 40)
         
-        return label
-        
-    }()
+    }
     
     // MARK: 아이디 입력란
-    private let idTextField: UITextField = {
+    private let idTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "아이디"
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .username
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "아이디"
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .username
         
-        textField.text = UserDefaultsManager.shared.loadId()
+        $0.text = UserDefaultsManager.shared.loadId()
         
         // textField.addTarget(self, action: #selector(idTextFieldChange(_:)), for: .editingChanged)
         
-        return textField
-        
-    }()
+    }
     
     
     
     // MARK: 비밀번호 입력란
-    private let passwordTextField: UITextField = {
+    private let passwordTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.placeholder = "비밀번호"
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .password
+        $0.borderStyle = .roundedRect
+        $0.isSecureTextEntry = true
+        $0.placeholder = "비밀번호"
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .password
         
         // textField.text = UserDefaultsManager.shared.loadPassword()
         
-        return textField
-        
-    }()
+    }
     
     // MARK: 이름 입력란
-    private let nameTextField: UITextField = {
+    private let nameTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "이름"
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .name
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "이름"
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .name
         
         // textField.text = UserDefaultsManager.shared.loadName()
         
-        return textField
-        
-    }()
+    }
     
     // MARK: 생년월일 입력란
-    private let birthdayTextField: UITextField = {
+    private let birthdayTextField = UITextField().then {
         
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "년도. 월. 일."
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .none
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "년도. 월. 일."
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .none
         
         // textField.text = UserDefaultsManager.shared.loadBirthday()
         
-        return textField
-        
-    }()
+    }
     
     // MARK: 전화번호 입력란
-    private let phoneNumberTextField: UITextField = {
-        
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.placeholder = "전화번호 - 없이 입력"
-        textField.autocapitalizationType = .none // 자동 대문자 변환 무시
-        textField.autocorrectionType = .no // 자동 수정 무시
-        textField.smartQuotesType = .no // 스마트 구두점 무시
-        textField.textContentType = .telephoneNumber
+    private let phoneNumberTextField = UITextField().then {
+    
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "전화번호 - 없이 입력"
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .telephoneNumber
         
         // textField.text = UserDefaultsManager.shared.loadPhoneNumber()
         
-        return textField
-        
-    }()
+    }
     
     // MARK: 취소하기 버튼
-    private let cancelButton: UIButton = {
+    private let cancelButton = UIButton().then {
         
-        let button = UIButton(type: .system)
-        button.setTitle("취소하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = UIColor(red: 84/255, green: 146/255, blue: 232/255, alpha: 1.0)
+        $0.setTitle("취소하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        $0.backgroundColor = UIColor(red: 84/255, green: 146/255, blue: 232/255, alpha: 1.0)
+        $0.layer.cornerRadius = 16
+        $0.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
-        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-        
-        button.layer.cornerRadius = 16
-        
-        return button
-    }()
+    }
     
     // MARK: 가입하기 버튼
-    private let registerButton: UIButton = {
+    private let registerButton = UIButton().then {
         
-        let button = UIButton(type: .system)
-        button.setTitle("가입하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
-        button.layer.cornerRadius = 16
+        $0.setTitle("가입하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        $0.backgroundColor = UIColor(red: 255/255, green: 124/255, blue: 124/255, alpha: 1.0)
+        $0.layer.cornerRadius = 16
+        $0.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         
-        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

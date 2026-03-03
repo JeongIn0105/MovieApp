@@ -7,7 +7,7 @@
 
 import Foundation
 
-// UserDefaults 저장/불러오기/로그인 검증을 한 곳에서 관리
+// MARK: UserDefaults 저장 / 불러오기 / 로그인 검증을 한 곳에서 관리
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private init() {}
@@ -22,7 +22,7 @@ final class UserDefaultsManager {
         static let phoneNumber = "phoneNumber"
     }
 
-    // MARK: - Save
+    // MARK: - 저장
     func saveUser(id: String,
                   password: String,
                   name: String?,
@@ -36,21 +36,21 @@ final class UserDefaultsManager {
         defaults.set(phoneNumber, forKey: Keys.phoneNumber)
     }
 
-    // MARK: - Load
+    // MARK: - 불러오기
     func loadId() -> String? { defaults.string(forKey: Keys.id) }
     func loadPassword() -> String? { defaults.string(forKey: Keys.password) }
     func loadName() -> String? { defaults.string(forKey: Keys.name) }
     func loadBirthday() -> String? { defaults.string(forKey: Keys.birthday) }
     func loadPhoneNumber() -> String? { defaults.string(forKey: Keys.phoneNumber) }
 
-    // MARK: - Login Validate
+    // MARK: - 로그인 검증
     func validateLogin(inputId: String, inputPassword: String) -> Bool {
         guard let savedId = loadId(),
               let savedPassword = loadPassword() else { return false }
         return savedId == inputId && savedPassword == inputPassword
     }
 
-    // MARK: - Utils
+    // MARK: - 유틸리티
     func trimmed(_ text: String?) -> String {
         (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }

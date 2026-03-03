@@ -11,7 +11,7 @@
  - UICollectionView를 활용하여 영화 포스터를 표시해주세요.
  */
 
-// MARK: 영화 검색 페이지 구현
+// MARK: - 영화 검색 페이지 구현
 import UIKit
 
 final class MovieSearchViewController: UIViewController {
