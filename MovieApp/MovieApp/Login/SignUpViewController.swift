@@ -37,8 +37,6 @@ class SignUpViewController: UIViewController {
         
     }
     
-    
-    
     // MARK: 비밀번호 입력란
     private let passwordTextField = UITextField().then {
         
