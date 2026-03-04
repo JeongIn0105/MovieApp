@@ -22,7 +22,7 @@ import Then
 
 final class MovieListViewController: UIViewController {
     
-    // MARK: - Section
+    // MARK: - 섹션(Section)
     enum Section: Int, CaseIterable {
         case popular
         case nowPlaying
@@ -37,7 +37,7 @@ final class MovieListViewController: UIViewController {
         }
     }
     
-    // MARK: - UIKit
+    // MARK: - UIKit 셋팅
     private let titleLabel = UILabel().then {
         $0.text = "우이 무비"
         $0.font = .boldSystemFont(ofSize: 36)
@@ -85,17 +85,17 @@ final class MovieListViewController: UIViewController {
         [titleLabel, collectionView].forEach { view.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.top.equalToSuperview().offset(120)
             $0.centerX.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(30)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    // MARK: 세로고침
+    // MARK: - 세로고침 설정
     private func setupRefresh() {
         refreshControl.addTarget(self,
                                  action: #selector(onRefresh),
