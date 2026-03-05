@@ -153,9 +153,11 @@ class LoginViewController: UIViewController {
         
         print("viewWillAppear")
         
-         IdTextField.text = UserDefaultsManager.shared.loadId()
-         PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
-    
+        // IdTextField.text = UserDefaultsManager.shared.loadId()
+        // PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
+        
+        IdTextField.text = ""
+        PasswordTextField.text = ""
     }
     
     // MARK: 로그인 버튼을 클릭했을 때
