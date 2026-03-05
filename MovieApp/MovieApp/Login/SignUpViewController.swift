@@ -239,7 +239,7 @@ class SignUpViewController: UIViewController {
             phoneNumber: phoneNumber.isEmpty ? nil : phoneNumber
         )
         
-        // MARK: 완료되면 다시 로그인 화면으로 이동(push가 아니라 pop)
+        // MARK: 완료되면 다시 로그인 화면으로 이동(push가 아니라 pop 사용)
         let register = UIAlertController(title: "회원가입 완료", message: "로그인 화면으로 이동합니다.", preferredStyle: .alert)
         register.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
             self?.navigationController?.popViewController(animated: true)

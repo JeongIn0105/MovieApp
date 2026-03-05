@@ -265,20 +265,12 @@ extension MovieListViewController: UICollectionViewDataSource {
 // MARK: - 컬렉션 뷰 Delegate 설정
 extension MovieListViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let section = Section(rawValue: indexPath.section),
               let movie = moviesBySection[section]?[indexPath.item] else { return }
-        
-        let alert = UIAlertController(
-            title: movie.title,
-            message: nil,
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(.init(title: "닫기", style: .default))
-        present(alert, animated: true)
+
+        navigationController?.pushViewController(MovieDetailViewController(movie: movie), animated: true)
     }
 }
 
