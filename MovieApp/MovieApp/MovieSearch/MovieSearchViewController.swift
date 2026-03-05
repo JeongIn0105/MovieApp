@@ -94,7 +94,7 @@ final class MovieSearchViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = false
 
-        setupLayout()
+        configureUI()
         updateEmptyState()
 
         // 탭 들어오면 기본(전체처럼) 목록 첫 페이지 로드
@@ -102,7 +102,8 @@ final class MovieSearchViewController: UIViewController {
     }
 
     // MARK: - 전체 레이아웃 설정
-    private func setupLayout() {
+    private func configureUI() {
+        
         [titleLabel, searchBar, collectionView].forEach { view.addSubview($0) }
 
         titleLabel.snp.makeConstraints {
@@ -291,10 +292,11 @@ extension MovieSearchViewController: UICollectionViewDataSource {
 extension MovieSearchViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        // 영화 세부 페이지로 이동
         let movie = currentMovies[indexPath.item]
-        let alert = UIAlertController(title: movie.title, message: nil, preferredStyle: .alert)
-        alert.addAction(.init(title: "닫기", style: .default))
-        present(alert, animated: true)
+        let detailVC = MovieDetailViewController(movie: movie)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 
     // MARK: 무한 스크롤 트리거 설정
