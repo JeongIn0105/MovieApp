@@ -125,16 +125,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("viewWillAppear")
-        
-        IdTextField.text = UserDefaultsManager.shared.loadId()
-        PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
-        
-    }
-    
     // MARK: 로그인 버튼을 클릭했을 때
     @objc
     private func loginButtonTapped() {
@@ -153,8 +143,8 @@ class LoginViewController: UIViewController {
             id: id, password: password,
             name: UserDefaultsManager.shared.loadName(),
             birthday: UserDefaultsManager.shared.loadBirthday(),
-            phoneNumber: UserDefaultsManager.shared.loadPhoneNumber(),
-            email: UserDefaultsManager.shared.loadEmail()
+            email: UserDefaultsManager.shared.loadEmail(),
+            phoneNumber: UserDefaultsManager.shared.loadPhoneNumber()
         )
         let tabBar = MainTabBarViewController()
         navigationController?.setViewControllers([tabBar], animated: true)
@@ -263,8 +253,7 @@ class LoginViewController: UIViewController {
                 password:    newPw,
                 name:        UserDefaultsManager.shared.loadName(),
                 birthday:    UserDefaultsManager.shared.loadBirthday(),
-                phoneNumber: UserDefaultsManager.shared.loadPhoneNumber(),
-                email:       UserDefaultsManager.shared.loadEmail()
+                email:       UserDefaultsManager.shared.loadEmail(), phoneNumber: UserDefaultsManager.shared.loadPhoneNumber()
             )
             self.showAlert(title: "변경 완료", message: "비밀번호가 성공적으로 변경되었습니다.")
         })
