@@ -10,7 +10,9 @@
 
 
 ## ▶️ 실행 화면
-<img width="1206" height="2622" alt="MovieApp" src="https://github.com/user-attachments/assets/1382a112-045b-414a-801b-dbb2b66adb49" />
+<p align="center">
+<img width="500" height="900" alt="MovieApp" src="https://github.com/user-attachments/assets/1382a112-045b-414a-801b-dbb2b66adb49" />
+</p>
 
 ---
 
@@ -100,6 +102,7 @@
    - `UserDefaults`에 저장된 이름, 아이디, 이메일 정보를 표시한다.
    - `PHPickerViewController`를 사용하여 프로필 이미지를 변경할 수 있다.
    - 사용자의 영화 예매 및 결제 내역을 확인할 수 있도록 구현하였다.
+     
 7. **도전 기능**
    - 로그아웃 기능
    - 로그인 아이디 비밀번호 나갔다 들어와도 써져있는 자동완성기능
