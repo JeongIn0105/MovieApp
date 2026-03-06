@@ -66,6 +66,7 @@ class SignUpViewController: UIViewController {
         
     }
     
+
     // MARK: 생년월일 입력란
     private let birthdayTextField = UITextField().then {
         
@@ -75,9 +76,6 @@ class SignUpViewController: UIViewController {
         $0.autocorrectionType = .no // 자동 수정 무시
         $0.smartQuotesType = .no // 스마트 구두점 무시
         $0.textContentType = .none
-        
-        // textField.text = UserDefaultsManager.shared.loadBirthday()
-        
     }
     
     // MARK: 이메일 입력란
@@ -248,12 +246,12 @@ class SignUpViewController: UIViewController {
         let birthday = UserDefaultsManager.shared.trimmed(birthdayTextField.text)
         let email = UserDefaultsManager.shared.trimmed(emailTextField.text)
         let phoneNumber = UserDefaultsManager.shared.trimmed(phoneNumberTextField.text)
-        
+        let email = UserDefaultsManager.shared.trimmed(emailTextField.text)
         guard !id.isEmpty, !password.isEmpty else {
             showAlert(title: "입력 오류", message: "아이디와 비밀번호는 필수입니다.")
             return
         }
-        
+
         // MARK: 회원가입 완료 → UserDefaults 저장.
         UserDefaultsManager.shared.saveUser(
             id: id,

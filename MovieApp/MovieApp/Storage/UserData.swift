@@ -21,6 +21,7 @@ final class UserDefaultsManager {
         static let birthday = "birthday"
         static let email = "email"
         static let phoneNumber = "phoneNumber"
+        static let email = "email"
     }
 
     // MARK: - 저장
@@ -37,6 +38,7 @@ final class UserDefaultsManager {
         defaults.set(birthday, forKey: Keys.birthday)
         defaults.set(email, forKey: Keys.email)
         defaults.set(phoneNumber, forKey: Keys.phoneNumber)
+        defaults.set(email, forKey: Keys.email)
     }
 
     // MARK: - 불러오기
@@ -46,7 +48,8 @@ final class UserDefaultsManager {
     func loadBirthday() -> String? { defaults.string(forKey: Keys.birthday) }
     func loadEmail() -> String? { defaults.string(forKey: Keys.email) }
     func loadPhoneNumber() -> String? { defaults.string(forKey: Keys.phoneNumber) }
-
+    func loadEmail() -> String? { defaults.string(forKey: Keys.email) }
+    
     // MARK: - 로그인 검증
     func validateLogin(inputId: String, inputPassword: String) -> Bool {
         guard let savedId = loadId(),
