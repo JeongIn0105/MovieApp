@@ -246,7 +246,6 @@ class SignUpViewController: UIViewController {
         let birthday = UserDefaultsManager.shared.trimmed(birthdayTextField.text)
         let email = UserDefaultsManager.shared.trimmed(emailTextField.text)
         let phoneNumber = UserDefaultsManager.shared.trimmed(phoneNumberTextField.text)
-        let email = UserDefaultsManager.shared.trimmed(emailTextField.text)
         guard !id.isEmpty, !password.isEmpty else {
             showAlert(title: "입력 오류", message: "아이디와 비밀번호는 필수입니다.")
             return

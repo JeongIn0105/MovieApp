@@ -50,8 +50,7 @@ final class MyPageModel {
             password: manager.loadPassword() ?? "",
             name: name,
             birthday: manager.loadBirthday(),
-            phoneNumber: manager.loadPhoneNumber(),
-            email: manager.loadEmail()
+            email: manager.loadEmail(), phoneNumber: manager.loadPhoneNumber()
         )
     }
 }
