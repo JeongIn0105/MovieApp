@@ -19,6 +19,7 @@ final class UserDefaultsManager {
         static let password = "password"
         static let name = "name"
         static let birthday = "birthday"
+        static let email = "email"
         static let phoneNumber = "phoneNumber"
     }
 
@@ -27,12 +28,14 @@ final class UserDefaultsManager {
                   password: String,
                   name: String?,
                   birthday: String?,
+                  email: String?,
                   phoneNumber: String?) {
 
         defaults.set(id, forKey: Keys.id)
         defaults.set(password, forKey: Keys.password)
         defaults.set(name, forKey: Keys.name)
         defaults.set(birthday, forKey: Keys.birthday)
+        defaults.set(email, forKey: Keys.email)
         defaults.set(phoneNumber, forKey: Keys.phoneNumber)
     }
 
@@ -41,6 +44,7 @@ final class UserDefaultsManager {
     func loadPassword() -> String? { defaults.string(forKey: Keys.password) }
     func loadName() -> String? { defaults.string(forKey: Keys.name) }
     func loadBirthday() -> String? { defaults.string(forKey: Keys.birthday) }
+    func loadEmail() -> String? { defaults.string(forKey: Keys.email) }
     func loadPhoneNumber() -> String? { defaults.string(forKey: Keys.phoneNumber) }
 
     // MARK: - 로그인 검증

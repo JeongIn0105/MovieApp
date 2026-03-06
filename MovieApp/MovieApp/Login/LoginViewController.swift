@@ -153,11 +153,9 @@ class LoginViewController: UIViewController {
         
         print("viewWillAppear")
         
-        // IdTextField.text = UserDefaultsManager.shared.loadId()
-        // PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
+        IdTextField.text = UserDefaultsManager.shared.loadId()
+        PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
         
-        IdTextField.text = ""
-        PasswordTextField.text = ""
     }
     
     // MARK: 로그인 버튼을 클릭했을 때
@@ -176,16 +174,7 @@ class LoginViewController: UIViewController {
             showAlert(title: "로그인 실패", message: "아이디 또는 비밀번호가 올바르지 않습니다.\n(먼저 회원가입을 진행해주세요.)")
             return
         }
-        
-        // MARK: 로그인 성공 시에도 다시 저장(요구사항: 이후 자동 입력)
-        UserDefaultsManager.shared.saveUser(
-            id: id,
-            password: password,
-            name: UserDefaultsManager.shared.loadName(),
-            birthday: UserDefaultsManager.shared.loadBirthday(),
-            phoneNumber: UserDefaultsManager.shared.loadPhoneNumber()
-        )
-        
+
         // MARK: 로그인 완료 → TabBar 화면 이동
         let tabBar = MainTabBarViewController()
         navigationController?.setViewControllers([tabBar], animated: true)
