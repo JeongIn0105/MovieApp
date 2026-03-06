@@ -10,9 +10,7 @@
 
 
 ## ▶️ 실행 화면
-<p align="center">
-<img width="600" height="900" alt="https://raw.githubusercontent.com/아이디/레포지토리/main/images/simulator.png"/>"/>
-</p>
+<img width="1206" height="2622" alt="MovieApp" src="https://github.com/user-attachments/assets/1382a112-045b-414a-801b-dbb2b66adb49" />
 
 ---
 
