@@ -66,6 +66,7 @@ class SignUpViewController: UIViewController {
         
     }
     
+
     // MARK: 생년월일 입력란
     private let birthdayTextField = UITextField().then {
         
@@ -75,11 +76,18 @@ class SignUpViewController: UIViewController {
         $0.autocorrectionType = .no // 자동 수정 무시
         $0.smartQuotesType = .no // 스마트 구두점 무시
         $0.textContentType = .none
-        
-        // textField.text = UserDefaultsManager.shared.loadBirthday()
-        
     }
-    
+
+    private let emailTextField = UITextField().then {
+
+        $0.borderStyle = .roundedRect
+        $0.placeholder = "Email"
+        $0.autocapitalizationType = .none // 자동 대문자 변환 무시
+        $0.autocorrectionType = .no // 자동 수정 무시
+        $0.smartQuotesType = .no // 스마트 구두점 무시
+        $0.textContentType = .none
+    }
+
     // MARK: 전화번호 입력란
     private let phoneNumberTextField = UITextField().then {
     
@@ -149,6 +157,7 @@ class SignUpViewController: UIViewController {
             passwordTextField,
             nameTextField,
             birthdayTextField,
+            emailTextField,
             phoneNumberTextField,
             cancelButton,
             registerButton
@@ -186,7 +195,14 @@ class SignUpViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(30)
             $0.height.equalTo(40)
         }
-        
+
+        emailTextField.snp.makeConstraints {
+            $0.top.equalTo(nameTextField.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.height.equalTo(40)
+        }
+
         phoneNumberTextField.snp.makeConstraints {
             $0.top.equalTo(birthdayTextField.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
@@ -224,19 +240,20 @@ class SignUpViewController: UIViewController {
         let name = UserDefaultsManager.shared.trimmed(nameTextField.text)
         let birthday = UserDefaultsManager.shared.trimmed(birthdayTextField.text)
         let phoneNumber = UserDefaultsManager.shared.trimmed(phoneNumberTextField.text)
-        
+        let email = UserDefaultsManager.shared.trimmed(emailTextField.text)
         guard !id.isEmpty, !password.isEmpty else {
             showAlert(title: "입력 오류", message: "아이디와 비밀번호는 필수입니다.")
             return
         }
-        
+
         // MARK: 회원가입 완료 → UserDefaults 저장.
         UserDefaultsManager.shared.saveUser(
             id: id,
             password: password,
             name: name.isEmpty ? nil : name,
             birthday: birthday.isEmpty ? nil : birthday,
-            phoneNumber: phoneNumber.isEmpty ? nil : phoneNumber
+            phoneNumber: phoneNumber.isEmpty ? nil : phoneNumber,
+            email: email.isEmpty ? nil : email
         )
         
         // MARK: 완료되면 다시 로그인 화면으로 이동(push가 아니라 pop 사용)
