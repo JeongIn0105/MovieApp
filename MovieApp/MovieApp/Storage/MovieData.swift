@@ -20,6 +20,7 @@ struct Movie: Decodable {
     let title: String
     let overview: String?
     let posterPath: String?
+    
 
     // MARK: 영화 목록 / 영화 검색 API 데이터
     let releaseDate: String?

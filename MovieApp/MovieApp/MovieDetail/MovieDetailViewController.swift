@@ -115,8 +115,9 @@ final class MovieDetailViewController: UIViewController {
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .boldSystemFont(ofSize: 24)
         $0.backgroundColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
+        $0.addTarget(self, action: #selector(bookingTap), for: .touchUpInside)
     }
-    
+
     // MARK: - Init
     init(movie: Movie) {
         self.movie = movie
@@ -228,7 +229,17 @@ final class MovieDetailViewController: UIViewController {
             $0.edges.equalToSuperview().inset(16)
         }
     }
-    
+        // MARK: 회원가입 버튼을 클릭했을 때
+    @objc
+    private func bookingTap() {
+        let vc = BookingDetailViewController(
+            movieTitle: movie.title,
+            posterImage: posterImageView.image,
+            ageRating: ageBadgeLabel.text ?? "ALL"
+        )
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     // 포스터 위에 위·중간·아래가 다른 투명도의 검정 그라데이션 레이어를 추가하는 메서드.
     private func addPosterGradient() {
         
