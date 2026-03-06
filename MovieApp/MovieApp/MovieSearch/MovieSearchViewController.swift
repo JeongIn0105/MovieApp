@@ -236,7 +236,7 @@ final class MovieSearchViewController: UIViewController {
 
     // MARK: - Debounce(이벤트를 그룹화하여 특정시간이 지난 후 하나의 이벤트만 발생)
 
-    private func debounceSearch(_ text: String) { // 사용자가 검색창에 입력을 멈춘 후, 설정한 일정 시간(보통 300~500ms) 동안 추가 입력이 없을 때만 검색 API를 호출하는 기술.
+    private func debounceSearch(_ text: String) {
         
         searchWorkItem?.cancel()
 

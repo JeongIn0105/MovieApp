@@ -22,6 +22,15 @@ final class MyPageViewController: UIViewController {
         $0.font = .systemFont(ofSize: 28, weight: .bold)
         $0.textColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
     }
+    
+    private let logoutButton = UIButton().then {
+        $0.setTitle("로그아웃", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+    }
+    
     private let myDataSectionLabel = UILabel().then {
         $0.text = "내 정보"; $0.font = .systemFont(ofSize: 22, weight: .bold)
     }
@@ -58,7 +67,7 @@ final class MyPageViewController: UIViewController {
     private let tabIndicator = UIView().then {
         $0.backgroundColor = UIColor(red: 235/255, green: 6/255, blue: 6/255, alpha: 1.0)
     }
-
+    
     private let tableView = UITableView().then {
         $0.backgroundColor = UIColor.systemGray5
         $0.separatorStyle = .none
@@ -155,7 +164,7 @@ final class MyPageViewController: UIViewController {
             self.model.saveProfileImage(img)
         }
     }
-
+    
     private func setupActions() {
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImageView)))
         nameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapNameLabel)))
@@ -166,41 +175,107 @@ final class MyPageViewController: UIViewController {
     // MARK: - Layout
     private func setupLayout() {
         [titleLabel, myDataSectionLabel, profileImageView, infoStackView,
-         reservationSectionLabel, tabStackView, tabIndicator, tableView].forEach { view.addSubview($0) }
+         reservationSectionLabel, tabStackView, tabIndicator, tableView, logoutButton].forEach { view.addSubview($0) }
 
         profileImageView.addSubview(profilePlaceholderLabel)
         [nameLabel, idLabel, emailLabel].forEach { infoStackView.addArrangedSubview($0) }
         [paymentTabLabel, cancelTabLabel].forEach { tabStackView.addArrangedSubview($0) }
 
-        titleLabel.snp.makeConstraints { $0.top.equalToSuperview().offset(80); $0.centerX.equalToSuperview() }
-        myDataSectionLabel.snp.makeConstraints { $0.top.equalTo(titleLabel.snp.bottom).offset(20); $0.leading.equalToSuperview().offset(40) }
-        profileImageView.snp.makeConstraints { $0.top.equalTo(myDataSectionLabel.snp.bottom).offset(15); $0.leading.equalToSuperview().offset(20); $0.width.height.equalTo(110) }
-        profilePlaceholderLabel.snp.makeConstraints { $0.center.equalToSuperview() }
-        infoStackView.snp.makeConstraints { $0.centerY.equalTo(profileImageView); $0.leading.equalTo(profileImageView.snp.trailing).offset(20) }
-        reservationSectionLabel.snp.makeConstraints { $0.top.equalTo(profileImageView.snp.bottom).offset(20); $0.leading.equalToSuperview().offset(20) }
-        tabStackView.snp.makeConstraints { $0.top.equalTo(reservationSectionLabel.snp.bottom).offset(15); $0.leading.equalToSuperview().offset(20) }
+        titleLabel.snp.makeConstraints { 
+          $0.top.equalToSuperview().offset(80)
+          $0.centerX.equalToSuperview() 
+        }
+      
+        myDataSectionLabel.snp.makeConstraints {
+          $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+          $0.leading.equalToSuperview().offset(40) 
+        }
+      
+        profileImageView.snp.makeConstraints { 
+          $0.top.equalTo(myDataSectionLabel.snp.bottom).offset(15)
+          $0.leading.equalToSuperview().offset(20)
+          $0.width.height.equalTo(110) 
+        }
+      
+        profilePlaceholderLabel.snp.makeConstraints { 
+          $0.center.equalToSuperview() 
+        }
+      
+        infoStackView.snp.makeConstraints { 
+          $0.centerY.equalTo(profileImageView)
+          $0.leading.equalTo(profileImageView.snp.trailing).offset(20)
+        }
+      
+        reservationSectionLabel.snp.makeConstraints { 
+          $0.top.equalTo(profileImageView.snp.bottom).offset(20)
+          $0.leading.equalToSuperview().offset(20) 
+        }
+      
+        tabStackView.snp.makeConstraints { 
+          $0.top.equalTo(reservationSectionLabel.snp.bottom).offset(15)
+          $0.leading.equalToSuperview().offset(20)
+        }
+      
         tabIndicator.snp.makeConstraints {
             $0.top.equalTo(tabStackView.snp.bottom).offset(4)
             $0.leading.equalTo(paymentTabLabel.snp.leading)
             $0.width.equalTo(paymentTabLabel.snp.width)
             $0.height.equalTo(2)
         }
+      
+      logoutButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(80)
+            $0.width.equalTo(80)
+            $0.trailing.equalToSuperview().offset(-30)
+        }
+      
         tableView.snp.makeConstraints {
             $0.top.equalTo(tabIndicator.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    private func userUserDefaults() {
+        let ud = UserDefaultsManager.shared
+
+        // 저장된 값 읽기
+        let savedName = ud.trimmed(ud.loadName())
+        let savedId = ud.trimmed(ud.loadId())
+        let savedEmail = ud.trimmed(ud.loadEmail())
+
+        // 빈 값이면 "-" 처리
+        let nameText = savedName.isEmpty ? "-" : savedName
+        let idText = savedId.isEmpty ? "-" : savedId
+        let emailText = savedEmail.isEmpty ? "-" : savedEmail
+
+        // 라벨 업데이트
+        nameLabel.text = "이름: \(nameText)"
+        idLabel.text = "아이디: \(idText)"
+        emailLabel.text = "이메일: \(emailText)"
+    }
+    
+    // MARK: 로그아웃 버튼 실행
+    @objc private func logoutButtonTapped() {
+        
+        let loginVC = LoginViewController()
+        let nav = UINavigationController(rootViewController: loginVC)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = nav
+            window.makeKeyAndVisible()
+        }
+    }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
-extension MyPageViewController: UITableViewDataSource, UITableViewDelegate {
-
+// MARK: - 테이블 뷰 Delegate, DataSource 설정
+extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let list = showingCompleted ? completedList : cancelledList
         return list.isEmpty ? 1 : list.count  // 빈 경우 안내 셀 1개
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let list = showingCompleted ? completedList : cancelledList
 

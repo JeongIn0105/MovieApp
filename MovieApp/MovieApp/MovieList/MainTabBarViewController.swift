@@ -49,6 +49,3 @@ final class MainTabBarViewController: UITabBarController {
         viewControllers = [movieListNav, movieSearchNav, myPageNav]
     }
 }
-
-
-

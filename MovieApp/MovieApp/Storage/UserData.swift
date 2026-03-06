@@ -19,6 +19,7 @@ final class UserDefaultsManager {
         static let password = "password"
         static let name = "name"
         static let birthday = "birthday"
+        static let email = "email"
         static let phoneNumber = "phoneNumber"
         static let email = "email"
     }
@@ -28,13 +29,14 @@ final class UserDefaultsManager {
                   password: String,
                   name: String?,
                   birthday: String?,
-                  phoneNumber: String?,
-                  email: String?) {
+                  email: String?,
+                  phoneNumber: String?) {
 
         defaults.set(id, forKey: Keys.id)
         defaults.set(password, forKey: Keys.password)
         defaults.set(name, forKey: Keys.name)
         defaults.set(birthday, forKey: Keys.birthday)
+        defaults.set(email, forKey: Keys.email)
         defaults.set(phoneNumber, forKey: Keys.phoneNumber)
         defaults.set(email, forKey: Keys.email)
     }
@@ -44,6 +46,7 @@ final class UserDefaultsManager {
     func loadPassword() -> String? { defaults.string(forKey: Keys.password) }
     func loadName() -> String? { defaults.string(forKey: Keys.name) }
     func loadBirthday() -> String? { defaults.string(forKey: Keys.birthday) }
+    func loadEmail() -> String? { defaults.string(forKey: Keys.email) }
     func loadPhoneNumber() -> String? { defaults.string(forKey: Keys.phoneNumber) }
     func loadEmail() -> String? { defaults.string(forKey: Keys.email) }
     

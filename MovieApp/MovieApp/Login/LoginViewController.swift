@@ -124,11 +124,21 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(15)
         }
     }
-
-    // MARK: - Actions
-
-    @objc private func loginButtonTapped() {
-        let id       = UserDefaultsManager.shared.trimmed(IdTextField.text)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("viewWillAppear")
+        
+        IdTextField.text = UserDefaultsManager.shared.loadId()
+        PasswordTextField.text = UserDefaultsManager.shared.loadPassword()
+        
+    }
+    
+    // MARK: 로그인 버튼을 클릭했을 때
+    @objc
+    private func loginButtonTapped() {
+        let id = UserDefaultsManager.shared.trimmed(IdTextField.text)
         let password = UserDefaultsManager.shared.trimmed(PasswordTextField.text)
 
         guard !id.isEmpty, !password.isEmpty else {
