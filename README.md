@@ -11,8 +11,7 @@
 
 ## ▶️ 실행 화면
 <p align="center">
-<img width="600" height="900" alt="image" src="![Uploading Simulator Screenshot - iPhone 17 Pro - 2026-03-06 at 10.17.52.png…]()
-"/>
+<img width="600" height="900" alt="https://raw.githubusercontent.com/아이디/레포지토리/main/images/simulator.png"/>"/>
 </p>
 
 ---
